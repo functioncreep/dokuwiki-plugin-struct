@@ -1,3 +1,6 @@
+> [!NOTE]
+> This is a fork with a personal fix for an edge case involving lightbox display of image struct values.
+
 struct Plugin for DokuWiki
 
 Add and query additional structured page data
