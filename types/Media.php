@@ -78,8 +78,12 @@ class Media extends AbstractBaseType
         if ($mode == 'xhtml') {
             [, $mime, ] = mimetype($value, false);
             if (str_starts_with($mime, 'image/')) {
-                $hash = empty($R->info['struct_table_hash']) ? '' : "[gal-" . $R->info['struct_table_hash'] . "]";
-                $html = str_replace('href', "rel=\"lightbox$hash\" href", $html);
+                preg_match('/href="([a-zA-Z0-9@:%._\\+~#?&\/=]+)"/', $html, $matches);
+                $src = $matches[1];
+                $hash = empty($R->info['struct_table_hash']) ? md5(var_export($this->data, true)) : $R->info['struct_table_hash'];
+                $lbid = "[gal-" . $hash . "]";
+                $caption = $this->config['label']['en'];
+                $html = str_replace('href', "rel=\"lightbox$lbid\" data-url=\"$src\" data-caption=\"$caption\" href", $html);
             }
             $R->doc .= $html;
         }
